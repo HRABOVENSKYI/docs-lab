@@ -41,6 +41,9 @@ public class Order {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column(name = "active_until")
-    private LocalDateTime activeUntil;
+    public Order(Insurance insurance, User user) {
+        this.insurance = insurance;
+        this.user = user;
+        this.createdAt = LocalDateTime.now();
+    }
 }

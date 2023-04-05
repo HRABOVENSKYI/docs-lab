@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ua.lviv.iot.docslab.enums.PaymentType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -39,10 +40,18 @@ public class Payment {
     @Column(name = "transaction_timestamp")
     private LocalDateTime transactionTimestamp;
 
-    @Column(name = "currency")
-    private String currency;
+    @Column(name = "payment_type")
+    private PaymentType paymentType;
 
     @OneToOne
     @JoinColumn(name = "refund_transaction_id")
-    private Payment refundTransaction;
+    private Payment parentPayment;
+
+    public Payment(Order order, PaymentType paymentType, Payment parentPayment) {
+        this.order = order;
+        this.cost = order.getInsurance().getPrice();
+        this.transactionTimestamp = LocalDateTime.now();
+        this.paymentType = paymentType;
+        this.parentPayment = parentPayment;
+    }
 }

@@ -4,8 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ua.lviv.iot.docslab.dto.PaymentDto;
 import ua.lviv.iot.docslab.model.Payment;
 import ua.lviv.iot.docslab.service.PaymentService;
 
@@ -26,5 +29,10 @@ public class PaymentController {
     @GetMapping("/{id}")
     public ResponseEntity<Payment> getPayment(@PathVariable("id") Long id) {
         return ResponseEntity.ok(paymentService.findById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<Payment> savePaymentTransaction(@RequestBody PaymentDto paymentDto) {
+        return ResponseEntity.ok(paymentService.create(paymentDto));
     }
 }
