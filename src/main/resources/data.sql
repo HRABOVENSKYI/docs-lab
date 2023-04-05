@@ -6,7 +6,7 @@ INSERT INTO insurance (active_period_in_days, name, price) VALUES (60, 'Limited 
 
 INSERT INTO `user` (email, first_name, is_banned, last_name, password, role) VALUES ('john.doe@example.com', 'John', 0, 'Doe', 'pass123', 'USER');
 INSERT INTO `user` (email, first_name, is_banned, last_name, password, role) VALUES ('jane.doe@example.com', 'Jane', 0, 'Doe', 'pass456', 'USER');
-INSERT INTO `user` (email, first_name, is_banned, last_name, password, role) VALUES ('admin@example.com', 'Admin', 0, 'User', 'adminpass', 'ADMIN');
+INSERT INTO `user` (email, first_name, is_banned, last_name, password, role) VALUES ('admin@example.com', 'Admin', 0, 'UserResponse', 'adminpass', 'ADMIN');
 INSERT INTO `user` (email, first_name, is_banned, last_name, password, role) VALUES ('jim.smith@example.com', 'Jim', 1, 'Smith', 'pass789', 'USER');
 INSERT INTO `user` (email, first_name, is_banned, last_name, password, role) VALUES ('sara.hill@example.com', 'Sara', 0, 'Hill', 'pass321', 'USER');
 

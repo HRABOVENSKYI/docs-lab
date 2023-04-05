@@ -1,5 +1,6 @@
 package ua.lviv.iot.docslab.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -43,7 +44,8 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "user")
-    private Set<Order> order;
+    @JsonIgnore
+    private Set<Order> orders;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)

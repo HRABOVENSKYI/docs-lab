@@ -19,6 +19,6 @@ public class InsuranceService {
 
     public Insurance findById(Long id) {
         return insuranceDao.findById(id)
-                .orElseThrow(() -> new RuntimeException("Insurance not found"));
+                .orElseThrow(() -> new RuntimeException("InsuranceResponse not found"));
     }
 }
