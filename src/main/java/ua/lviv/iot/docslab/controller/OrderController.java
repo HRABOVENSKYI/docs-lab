@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ua.lviv.iot.docslab.dto.OrderCsvDto;
 import ua.lviv.iot.docslab.dto.OrderDto;
 import ua.lviv.iot.docslab.model.Order;
 import ua.lviv.iot.docslab.service.OrderService;
@@ -34,5 +35,15 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<Order> createOrder(@RequestBody OrderDto orderDto) {
         return ResponseEntity.ok(orderService.create(orderDto));
+    }
+
+    @PostMapping("/generate-csv")
+    public ResponseEntity<List<OrderCsvDto>> createOrdersCsv() {
+        return ResponseEntity.ok(orderService.generateOrdersCsv());
+    }
+
+    @PostMapping("/save-csv-to-db")
+    public ResponseEntity<List<Order>> saveCsvToDb() {
+        return ResponseEntity.ok(orderService.saveCsvToDb());
     }
 }

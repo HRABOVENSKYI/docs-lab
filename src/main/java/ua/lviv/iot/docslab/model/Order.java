@@ -41,6 +41,12 @@ public class Order {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    public Order(Insurance insurance, User user, LocalDateTime createdAt) {
+        this.insurance = insurance;
+        this.user = user;
+        this.createdAt = createdAt;
+    }
+
     public Order(Insurance insurance, User user) {
         this.insurance = insurance;
         this.user = user;
