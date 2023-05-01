@@ -1,6 +1,7 @@
 package ua.lviv.iot.docslab.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,8 @@ import java.util.List;
 @RequestMapping("/order")
 public class OrderController {
 
+    @Value("${kafka.is-used}")
+    private Boolean useKafka;
     private final OrderService orderService;
 
     @GetMapping
@@ -34,6 +37,11 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<Order> createOrder(@RequestBody OrderDto orderDto) {
+        System.out.println(useKafka);
+        if (Boolean.TRUE.equals(useKafka)) {
+            orderService.writeToKafka(orderDto);
+            return ResponseEntity.ok().build();
+        }
         return ResponseEntity.ok(orderService.create(orderDto));
     }
 

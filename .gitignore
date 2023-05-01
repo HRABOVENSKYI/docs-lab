@@ -34,3 +34,4 @@ build/
 
 ### ADDED
 .env
+src/main/java/ua/lviv/iot/docslab/data/*

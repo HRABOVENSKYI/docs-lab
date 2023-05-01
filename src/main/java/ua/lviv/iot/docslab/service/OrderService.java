@@ -1,7 +1,10 @@
 package ua.lviv.iot.docslab.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import ua.lviv.iot.docslab.dto.OrderCsvDto;
 import ua.lviv.iot.docslab.dto.OrderDto;
@@ -20,10 +23,14 @@ import java.util.Random;
 public class OrderService {
 
     private final OrderDao orderDao;
-
     private final OrderMapper orderMapper;
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
-    private final Random random = new Random();
+    private static final ObjectMapper MAPPER = new ObjectMapper();
+    private static final Random random = new Random();
+
+    @Value("${kafka.topic}")
+    private String TOPIC_NAME;
 
     public List<Order> findAll() {
         return orderDao.findAll();
@@ -36,6 +43,14 @@ public class OrderService {
 
     public Order create(OrderDto orderDto) {
         return orderDao.save(orderMapper.map(orderDto));
+    }
+
+    public void writeToKafka(OrderDto orderDto) {
+        try {
+            kafkaTemplate.send(TOPIC_NAME, MAPPER.writeValueAsString(orderDto));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     public List<OrderCsvDto> generateOrdersCsv() {
