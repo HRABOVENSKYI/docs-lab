@@ -21,8 +21,6 @@ import java.util.List;
 @RequestMapping("/order")
 public class OrderController {
 
-    @Value("${kafka.is-used}")
-    private Boolean useKafka;
     private final OrderService orderService;
 
     @GetMapping
@@ -36,13 +34,8 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody OrderDto orderDto) {
-        System.out.println(useKafka);
-        if (Boolean.TRUE.equals(useKafka)) {
-            orderService.writeToKafka(orderDto);
-            return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.ok(orderService.create(orderDto));
+    public ResponseEntity<String> createOrder(@RequestBody OrderDto orderDto) {
+        return ResponseEntity.ok(orderService.writeOrder(orderDto));
     }
 
     @PostMapping("/generate-csv")

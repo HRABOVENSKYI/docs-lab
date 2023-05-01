@@ -22,5 +22,6 @@ server:
   error:
     include-message: always
 kafka:
-  is-used: ${IS_KAFKA_USED:false}
   topic: ${KAFKA_TOPIC:quickstart}
+write:
+  type: ${WRITE_TYPE:db}

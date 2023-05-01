@@ -12,6 +12,7 @@ import ua.lviv.iot.docslab.mapper.OrderMapper;
 import ua.lviv.iot.docslab.model.Order;
 import ua.lviv.iot.docslab.repositiry.OrderDao;
 import ua.lviv.iot.docslab.repositiry.csv.CsvUtils;
+import ua.lviv.iot.docslab.service.strategy.WriteStrategy;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,9 +25,8 @@ public class OrderService {
 
     private final OrderDao orderDao;
     private final OrderMapper orderMapper;
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final WriteStrategy writeStrategy;
 
-    private static final ObjectMapper MAPPER = new ObjectMapper();
     private static final Random random = new Random();
 
     @Value("${kafka.topic}")
@@ -41,16 +41,8 @@ public class OrderService {
                 .orElseThrow(() -> new RuntimeException("InsuranceResponse not found"));
     }
 
-    public Order create(OrderDto orderDto) {
-        return orderDao.save(orderMapper.map(orderDto));
-    }
-
-    public void writeToKafka(OrderDto orderDto) {
-        try {
-            kafkaTemplate.send(TOPIC_NAME, MAPPER.writeValueAsString(orderDto));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+    public String writeOrder(OrderDto orderDto) {
+        return writeStrategy.write(orderDto);
     }
 
     public List<OrderCsvDto> generateOrdersCsv() {
