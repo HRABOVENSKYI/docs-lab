@@ -1,16 +1,13 @@
 package ua.lviv.iot.docslab.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ua.lviv.iot.docslab.dto.OrderCsvDto;
-import ua.lviv.iot.docslab.dto.OrderDto;
 import ua.lviv.iot.docslab.model.Order;
 import ua.lviv.iot.docslab.service.OrderService;
 
@@ -31,11 +28,6 @@ public class OrderController {
     @GetMapping("/{id}")
     public ResponseEntity<Order> getOrder(@PathVariable("id") Long id) {
         return ResponseEntity.ok(orderService.findById(id));
-    }
-
-    @PostMapping
-    public ResponseEntity<String> createOrder(@RequestBody OrderDto orderDto) {
-        return ResponseEntity.ok(orderService.writeOrder(orderDto));
     }
 
     @PostMapping("/generate-csv")

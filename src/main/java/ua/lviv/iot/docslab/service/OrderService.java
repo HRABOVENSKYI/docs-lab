@@ -1,10 +1,6 @@
 package ua.lviv.iot.docslab.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import ua.lviv.iot.docslab.dto.OrderCsvDto;
 import ua.lviv.iot.docslab.dto.OrderDto;
@@ -25,12 +21,8 @@ public class OrderService {
 
     private final OrderDao orderDao;
     private final OrderMapper orderMapper;
-    private final WriteStrategy writeStrategy;
 
     private static final Random random = new Random();
-
-    @Value("${kafka.topic}")
-    private String TOPIC_NAME;
 
     public List<Order> findAll() {
         return orderDao.findAll();
@@ -39,10 +31,6 @@ public class OrderService {
     public Order findById(Long id) {
         return orderDao.findById(id)
                 .orElseThrow(() -> new RuntimeException("InsuranceResponse not found"));
-    }
-
-    public String writeOrder(OrderDto orderDto) {
-        return writeStrategy.write(orderDto);
     }
 
     public List<OrderCsvDto> generateOrdersCsv() {
